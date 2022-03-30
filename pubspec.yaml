@@ -5,6 +5,8 @@ homepage: https://github.com/joelrose/flutter_sanity
 repository: https://github.com/joelrose/flutter_sanity
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
-dependencies: 
+  sdk: ">=2.12.0 <3.0.0"
+dependencies:
   http: ^0.13.4
+dev_dependencies:
+  test: ^1.20.2
