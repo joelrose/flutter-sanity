@@ -38,8 +38,7 @@ class SanityClient {
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        final responseJson = jsonDecode(response.body);
-        return responseJson['result'];
+        return _decodeReponse(response.body);
       case 400:
         throw BadRequestException(response.body);
       case 401:
@@ -50,6 +49,15 @@ class SanityClient {
         throw FetchDataException(
           'Error occured while communication with server with status code: ${response.statusCode}',
         );
+    }
+  }
+
+  dynamic _decodeReponse(String responseBody) {
+    try {
+      final responseJson = jsonDecode(responseBody);
+      return responseJson['result'];
+    } catch (exception) {
+      throw FetchDataException('Error occured while decoding response');
     }
   }
 

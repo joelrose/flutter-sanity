@@ -29,3 +29,8 @@ class UnauthorizedException extends AppException {
 class InvalidInputException extends AppException {
   InvalidInputException([String? message]) : super(message, 'Invalid Input: ');
 }
+
+class FormatDataException extends AppException {
+  FormatDataException([String? message])
+      : super(message, 'Error During Parsing: ');
+}
