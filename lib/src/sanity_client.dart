@@ -10,11 +10,12 @@ class SanityClient {
     required this.dataset,
     this.token,
     this.useCdn = true,
+    http.BaseClient? client,
   }) {
-    _client = HttpClient(token);
+    _client = client ?? HttpClient(token);
   }
 
-  late final HttpClient _client;
+  late final http.BaseClient _client;
 
   final String projectId;
 
