@@ -1,5 +1,5 @@
-class AppException implements Exception {
-  AppException([
+class SanityException implements Exception {
+  SanityException([
     this._message,
     this._prefix,
   ]);
@@ -13,24 +13,24 @@ class AppException implements Exception {
   }
 }
 
-class FetchDataException extends AppException {
+class FetchDataException extends SanityException {
   FetchDataException([String? message])
       : super(message, 'Error During Communication: ');
 }
 
-class BadRequestException extends AppException {
+class BadRequestException extends SanityException {
   BadRequestException([String? message]) : super(message, 'Invalid Request: ');
 }
 
-class UnauthorizedException extends AppException {
+class UnauthorizedException extends SanityException {
   UnauthorizedException([String? message]) : super(message, 'Unauthorized: ');
 }
 
-class InvalidInputException extends AppException {
+class InvalidInputException extends SanityException {
   InvalidInputException([String? message]) : super(message, 'Invalid Input: ');
 }
 
-class FormatDataException extends AppException {
+class FormatDataException extends SanityException {
   FormatDataException([String? message])
       : super(message, 'Error During Parsing: ');
 }
