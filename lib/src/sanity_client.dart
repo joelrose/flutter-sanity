@@ -15,16 +15,23 @@ class SanityClient {
     _client = client ?? HttpClient(token);
   }
 
+  /// HttpClient used to make requests
   late final http.BaseClient _client;
 
+  /// The project ID of the Sanity.io project.
   final String projectId;
 
+  /// The dataset of the Sanity.io project.
   final String dataset;
 
+  /// Use the Sanity CDN to fetch data.
   final bool useCdn;
 
+  /// The bearer token of the project to use for authentication.
+  /// If not set, the client will not send the token in the header.
   final String? token;
 
+  /// Builds a [Uri] for a sanity endpoint.
   Uri _buildUri(String query, {Map<String, dynamic>? params}) {
     final Map<String, dynamic> queryParameters = <String, dynamic>{
       'query': query,
@@ -38,6 +45,10 @@ class SanityClient {
     );
   }
 
+  /// Handles the response from the Sanity API.
+  ///
+  /// Throws a [BadRequestException], [UnauthorizedException], [FetchDataException] 
+  /// in case the request did not succeed
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -55,6 +66,9 @@ class SanityClient {
     }
   }
 
+  /// Decodes the Sanity response
+  ///
+  /// Throws a [FetchDataException] in case decoding the response fails.
   dynamic _decodeReponse(String responseBody) {
     try {
       final responseJson = jsonDecode(responseBody);
@@ -64,6 +78,9 @@ class SanityClient {
     }
   }
 
+  /// Fetches the query from the Sanity API.
+  ///
+  /// Throws a [SanityException] in case  request fails.
   Future<dynamic> fetch(String query, {Map<String, dynamic>? params}) async {
     final Uri uri = _buildUri(query, params: params);
     final http.Response response = await _client.get(uri);
