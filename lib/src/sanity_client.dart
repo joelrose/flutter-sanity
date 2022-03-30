@@ -8,12 +8,18 @@ class SanityClient {
   SanityClient({
     required this.projectId,
     required this.dataset,
+    String? token,
     this.useCdn = true,
-  });
+  }) {
+    _client = HttpClient(token);
+  }
 
-  final HttpClient _client = HttpClient();
+  late final HttpClient _client;
+
   final String projectId;
+
   final String dataset;
+
   final bool useCdn;
 
   Uri _buildUri(String query, {Map<String, dynamic>? params}) {
