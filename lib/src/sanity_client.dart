@@ -47,7 +47,7 @@ class SanityClient {
 
   /// Handles the response from the Sanity API.
   ///
-  /// Throws a [BadRequestException], [UnauthorizedException], [FetchDataException] 
+  /// Throws a [BadRequestException], [UnauthorizedException], [FetchDataException]
   /// in case the request did not succeed
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
