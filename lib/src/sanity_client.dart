@@ -104,7 +104,8 @@ class SanityClient {
 
   /// download file from the Sanity API.
   ///
-  /// [na] in case  request fails.
+  /// [ref] - raw file name from Sanity (file-7e79aad1cfd65cfb551dc4749eea79678384ffef-zip)
+  ///
   Future<http.Response> download(String ref) async {
     final Uri uri = _buildDownloadUri(_normalizeFileName(ref));
 
