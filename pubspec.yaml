@@ -1,5 +1,5 @@
 name: flutter_sanity
-description: Flutter library for Sanity.io
+description: Dart libary to query the Sanity.io API. Supports running queries and downloading files.
 version: 1.1.0
 homepage: https://github.com/joelrose/flutter_sanity
 repository: https://github.com/joelrose/flutter_sanity
