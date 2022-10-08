@@ -45,6 +45,15 @@ class SanityClient {
     );
   }
 
+  /// Builds a [Uri] for a sanity endpoint.
+  Uri _buildDownloadUri(String name) {
+    return Uri(
+      scheme: 'https',
+      host: 'cdn.sanity.io',
+      path: '/files/$projectId/$dataset/$name',
+    );
+  }
+
   /// Handles the response from the Sanity API.
   ///
   /// Throws a [BadRequestException], [UnauthorizedException], [FetchDataException]
@@ -85,5 +94,21 @@ class SanityClient {
     final Uri uri = _buildUri(query, params: params);
     final http.Response response = await _client.get(uri);
     return _returnResponse(response);
+  }
+
+  String _normalizeFileName(String ref) {
+    final List<String> splitList = ref.split('-');
+
+    return '${splitList[1]}.${splitList[2]}';
+  }
+
+  /// download file from the Sanity API.
+  ///
+  /// [ref] - raw file name from Sanity (file-7e79aad1cfd65cfb551dc4749eea79678384ffef-zip)
+  ///
+  Future<http.Response> download(String ref) async {
+    final Uri uri = _buildDownloadUri(_normalizeFileName(ref));
+
+    return await _client.get(uri);
   }
 }
