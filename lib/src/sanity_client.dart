@@ -11,6 +11,7 @@ class SanityClient {
     this.token,
     this.useCdn = true,
     http.BaseClient? client,
+    this.apiVersion = 'v1',
   }) {
     _client = client ?? HttpClient(token);
   }
@@ -31,6 +32,8 @@ class SanityClient {
   /// If not set, the client will not send the token in the header.
   final String? token;
 
+  final String apiVersion;
+
   /// Builds a [Uri] for a sanity endpoint.
   Uri _buildUri(String query, {Map<String, dynamic>? params}) {
     final Map<String, dynamic> queryParameters = <String, dynamic>{
@@ -40,7 +43,7 @@ class SanityClient {
     return Uri(
       scheme: 'https',
       host: '$projectId.${useCdn ? 'apicdn' : 'api'}.sanity.io',
-      path: '/v1/data/query/$dataset',
+      path: '/$apiVersion/data/query/$dataset',
       queryParameters: queryParameters,
     );
   }
@@ -90,9 +93,17 @@ class SanityClient {
   /// Fetches the query from the Sanity API.
   ///
   /// Throws a [SanityException] in case  request fails.
-  Future<dynamic> fetch(String query, {Map<String, dynamic>? params}) async {
+  Future<dynamic> fetch(
+    String query, {
+    Map<String, dynamic>? params,
+    Duration? duration,
+  }) async {
     final Uri uri = _buildUri(query, params: params);
-    final http.Response response = await _client.get(uri);
+
+    final http.Response response = duration == null
+        ? await _client.get(uri)
+        : await _client.get(uri).timeout(duration);
+
     return _returnResponse(response);
   }
 
@@ -106,9 +117,11 @@ class SanityClient {
   ///
   /// [ref] - raw file name from Sanity (file-7e79aad1cfd65cfb551dc4749eea79678384ffef-zip)
   ///
-  Future<http.Response> download(String ref) async {
+  Future<http.Response> download(String ref, {Duration? duration}) async {
     final Uri uri = _buildDownloadUri(_normalizeFileName(ref));
 
-    return await _client.get(uri);
+    return duration == null
+        ? await _client.get(uri)
+        : await _client.get(uri).timeout(duration);
   }
 }
