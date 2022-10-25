@@ -1,6 +1,6 @@
-# Flutter Sanity.io
+# Dart Sanity.io
 
-This Dart package is a small abstraction on top of the Sanity.io libary.
+This Dart package is a small abstraction on top of the Sanity.io API.
 
 ## Installation 
 
